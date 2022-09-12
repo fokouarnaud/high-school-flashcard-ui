@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { FaceSmileIcon,FaceFrownIcon } from '@heroicons/react/24/solid'
 import $ from 'jquery';
-import '../stylesheets/QuizView.css';
+
+
+
+
 
 const questionsPerPlay = 5;
 
@@ -101,41 +105,54 @@ class QuizView extends Component {
 
   renderPrePlay() {
     return (
-      <div className='quiz-play-holder'>
-        <div className='choose-header'>Choose Category</div>
-        <div className='category-holder'>
-          <div className='play-category' onClick={this.selectCategory}>
-            ALL
-          </div>
-          {Object.keys(this.state.categories).map((id) => {
-            return (
-              <div
-                key={id}
-                value={id}
-                className='play-category'
-                onClick={() =>
-                  this.selectCategory({ type: this.state.categories[id], id })
-                }
-              >
-                {this.state.categories[id]}
+     
+        <div>
+          <div className='w-full order-3 md:order-1 max-w-full md:max-w-[calc(75% - 64px)] pr-0 md:pr-24'>
+            <h2 className='text-5xl text-[#3d3d4d] font-bold mb-10'>Choose Category</h2>
+
+            <div className=''>
+              <div className='text-xl hover:text-blue-500  cursor-pointer' onClick={this.selectCategory}>
+                ALL
               </div>
-            );
-          })}
+              {Object.keys(this.state.categories).map((id) => {
+                return (
+                  <div
+                    key={id}
+                    value={id}
+                    className='text-xl hover:text-blue-500 cursor-pointer'
+                    onClick={() =>
+                      this.selectCategory({ type: this.state.categories[id], id })
+                    }
+                  >
+                    {this.state.categories[id]}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
+    
     );
   }
 
   renderFinalScore() {
     return (
-      <div className='quiz-play-holder'>
-        <div className='final-header'>
-          Your Final Score is {this.state.numCorrect}
+      
+        <div className='w-full order-3 md:order-1 max-w-full md:max-w-[calc(75% - 64px)] pr-0 md:pr-24'>
+          <div className=' w-full break-words  flex-grow flex-shrink basis-auto font-normal '>
+            <div className='break-words'>
+              <div className='pb-3 tracking-normal text-2xl font-bold leading-9 text-[#292929] cursor-pointer ' > Your Final Score is {this.state.numCorrect}</div>
+            </div>
+            <div className='py-12'>
+              <div className='flex justify-between break-words font-normal'>
+                <button className=' cursor-pointer inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out' onClick={this.restartGame}>
+                  Play Again?
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className='play-again button' onClick={this.restartGame}>
-          Play Again?
-        </div>
-      </div>
+     
     );
   }
 
@@ -153,42 +170,87 @@ class QuizView extends Component {
   renderCorrectAnswer() {
     let evaluate = this.evaluateAnswer();
     return (
-      <div className='quiz-play-holder'>
-        <div className='quiz-question'>
-          {this.state.currentQuestion.question}
+      
+        <div className='w-full order-3 md:order-1 max-w-full md:max-w-[calc(75% - 64px)] pr-0 md:pr-24'>
+          <div className=' w-full break-words  flex-grow flex-shrink basis-auto font-normal '>
+            <div className='break-words'>
+              <div className='pb-3 tracking-normal text-2xl font-bold leading-9 text-[#292929]' > {this.state.currentQuestion.question}</div>
+              <div>
+                <p className='text-[#292929]'>
+                {this.state.currentQuestion.answer}
+                </p>
+              </div>
+            </div>
+            <div className='py-4'>
+              <div className='flex justify-between break-words font-normal'>
+              <div className='flex flex-grow flex-shrink-0 basis-auto items-center'>
+                    <div className={`pr-3 ${evaluate ? 'text-[#5def5b]' : 'text-[#ef5b5b]'}`}>
+                      {evaluate ? <FaceSmileIcon className='h-6 w-6'/>: <FaceFrownIcon className='h-6 w-6'/>}
+                    </div>
+                    <div className={`text-xl  font-normal ${evaluate ? 'text-[#5def5b]' : 'text-[#ef5b5b]'}`} >
+
+                    {evaluate ? 'You were correct!' : 'You were incorrect'}
+                    </div>
+                  </div>
+               
+              
+                <button className=' cursor-pointer inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'onClick={this.getNextQuestion}>
+                {' '}
+                  Next Question{' '}
+                </button>
+                
+              </div>
+            </div>
+          </div>
         </div>
-        <div className={`${evaluate ? 'correct' : 'wrong'}`}>
-          {evaluate ? 'You were correct!' : 'You were incorrect'}
-        </div>
-        <div className='quiz-answer'>{this.state.currentQuestion.answer}</div>
-        <div className='next-question button' onClick={this.getNextQuestion}>
-          {' '}
-          Next Question{' '}
-        </div>
-      </div>
+
+     
     );
   }
 
   renderPlay() {
+    console.log(this.state.previousQuestions.length ,questionsPerPlay);
     return this.state.previousQuestions.length === questionsPerPlay ||
       this.state.forceEnd ? (
       this.renderFinalScore()
     ) : this.state.showAnswer ? (
       this.renderCorrectAnswer()
     ) : (
-      <div className='quiz-play-holder'>
-        <div className='quiz-question'>
-          {this.state.currentQuestion.question}
+      
+        <div className='w-full order-3 md:order-1 max-w-full md:max-w-[calc(75% - 64px)] pr-0 md:pr-24'>
+          <div className=' w-full break-words  flex-grow flex-shrink basis-auto font-normal '>
+            <div className='break-words'>
+              <div className='pb-3 tracking-normal text-2xl font-bold leading-9 text-[#292929]' > {this.state.currentQuestion.question}</div>
+            </div>
+            <div className='py-4'>
+              <div className='flex justify-between break-words font-normal'>
+
+                <form className='m-0' onSubmit={this.submitGuess}>
+
+                  <label className="block mb-3">
+
+                    <input className="
+                
+                    mt-1
+                    block
+                    w-full
+                    rounded-md
+                    border-gray-300
+                    shadow-sm
+                    focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50
+                  " type='text' name='guess' onChange={this.handleChange} placeholder="Your Answer" />
+                  </label>
+                  <div className="flex space-x-2 justify-start py-3">
+                    <input type='submit' className=" cursor-pointer inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" value='Submit Answer' />
+                  </div>
+
+                </form>
+                <div></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <form onSubmit={this.submitGuess}>
-          <input type='text' name='guess' onChange={this.handleChange} />
-          <input
-            className='submit-guess button'
-            type='submit'
-            value='Submit Answer'
-          />
-        </form>
-      </div>
+     
     );
   }
 

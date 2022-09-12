@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../stylesheets/App.css';
 import Question from './Question';
 import Search from './Search';
 import $ from 'jquery';
@@ -49,15 +48,17 @@ class QuestionView extends Component {
     let maxPage = Math.ceil(this.state.totalQuestions / 10);
     for (let i = 1; i <= maxPage; i++) {
       pageNumbers.push(
-        <span
-          key={i}
-          className={`page-num ${i === this.state.page ? 'active' : ''}`}
-          onClick={() => {
-            this.selectPage(i);
-          }}
-        >
-          {i}
-        </span>
+        <li key={i}>
+          <button
+
+            className={`page-num ${i === this.state.page ? 'page-link relative block py-1.5 px-3 rounded border-0 bg-blue-600 outline-none transition-all duration-300  text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md' : 'page-link relative block py-1.5 px-3  border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'}`}
+            onClick={() => {
+              this.selectPage(i);
+            }}
+          >
+            {i}
+          </button>
+        </li>
       );
     }
     return pageNumbers;
@@ -88,7 +89,7 @@ class QuestionView extends Component {
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
-      data: JSON.stringify({ searchTerm: searchTerm }),
+      data: JSON.stringify({ isSearch: "ok", searchTerm: searchTerm }),
       xhrFields: {
         withCredentials: true,
       },
@@ -128,36 +129,9 @@ class QuestionView extends Component {
 
   render() {
     return (
-      <div className='question-view'>
-        <div className='categories-list'>
-          <h2
-            onClick={() => {
-              this.getQuestions();
-            }}
-          >
-            Categories
-          </h2>
-          <ul>
-            {Object.keys(this.state.categories).map((id) => (
-              <li
-                key={id}
-                onClick={() => {
-                  this.getByCategory(id);
-                }}
-              >
-                {this.state.categories[id]}
-                <img
-                  className='category'
-                  alt={`${this.state.categories[id].toLowerCase()}`}
-                  src={`${this.state.categories[id].toLowerCase()}.svg`}
-                />
-              </li>
-            ))}
-          </ul>
-          <Search submitSearch={this.submitSearch} />
-        </div>
-        <div className='questions-list'>
-          <h2>Questions</h2>
+      <>
+        <div className='w-full order-3 md:order-1 max-w-full md:max-w-[calc(75% - 64px)] pr-0 md:pr-24'>
+          <h2 className='text-5xl text-[#3d3d4d] font-bold mb-10'>Questions</h2>
           {this.state.questions.map((q, ind) => (
             <Question
               key={q.id}
@@ -168,9 +142,53 @@ class QuestionView extends Component {
               questionAction={this.questionAction(q.id)}
             />
           ))}
-          <div className='pagination-menu'>{this.createPagination()}</div>
+          <div className='flex justify-center'>
+            <nav >
+              <ul className='flex list-style-none'>
+                {this.createPagination()}
+              </ul>
+            </nav>
+
+          </div>
         </div>
-      </div>
+        <div className=' relative md:sticky top-auto md:top-0 order-[0] md:order-2 pt-0 md:pt-28 max-h-[calc(-72px + 100vh)] overflow-x-hidden overflow-y-auto w-full max-w-full md:max-w-xs ml-0'>
+
+
+          <h2
+            className='uppercase text-base text-left tracking-widest my-0 mr-0 mb-6 ml-0 text-[#3d3d4d]'
+            onClick={() => {
+              this.getQuestions();
+            }}
+          >
+            Categories
+          </h2>
+          <nav>
+            <ul>
+              {Object.keys(this.state.categories).map((id) => (
+                <li
+                  className='cursor-pointer hover:text-gray-900 flex items-center flex-row ml-3 text-[#6c6c80] font-normal transition-all break-words leading-4'
+                  key={id}
+                  onClick={() => {
+                    this.getByCategory(id);
+                  }}
+                >
+
+
+                  <img
+                    className='w-10 h-8 text-center mr-2'
+                    alt={`${this.state.categories[id].toLowerCase()}`}
+                    src={`${this.state.categories[id].toLowerCase()}.svg`}
+                  />
+                  {this.state.categories[id]}
+
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <Search submitSearch={this.submitSearch} />
+        </div>
+      </>
+
     );
   }
 }

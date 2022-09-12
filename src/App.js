@@ -1,27 +1,38 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './stylesheets/App.css';
+import React, {  useMemo, useContext } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FormView from './components/FormView';
 import QuestionView from './components/QuestionView';
 import Header from './components/Header';
 import QuizView from './components/QuizView';
+import Layout from './components/Layout';
+import { MenuContext } from './MenuContext';
 
-class App extends Component {
-  render() {
+const App =() => {
+  
+  const { on,updateMenu } = useContext(MenuContext);
+  const styleMenu = useMemo(() => {
+    return on ? 'after:block': 'after:hidden';
+  }, [on]);
+
     return (
-      <div className='App'>
-        <Header path />
-        <Router>
-          <Switch>
-            <Route path='/' exact component={QuestionView} />
-            <Route path='/add' component={FormView} />
-            <Route path='/play' component={QuizView} />
-            <Route component={QuestionView} />
-          </Switch>
-        </Router>
+      <div className='outline-none' tabIndex="-1">
+        <div onClick={updateMenu} className={`after:content-[''] after:fixed after:w-full after:h-full after:left-0 after:right-0 after:bottom-0 after:bg-black/[.6] after:z-[999] ${styleMenu}`}></div>
+        <div className='w-full max-w-screen-2xl my-0  mx-auto p-9 md:py-0 md:px-6  grid grid-cols-[100%] md:grid-cols-[280px_calc(100%-320px)] grid-flow-row gap-16'>
+          <Header path />
+          <Layout>
+          <Router>
+            <Routes>
+              <Route path='/' element={<QuestionView />} />
+              <Route path='/add' element={<FormView />} />
+              <Route path='/play' element={<QuizView />} />
+              <Route element={<QuestionView />} />
+            </Routes>
+          </Router>
+          </Layout>
+        </div>
+
       </div>
     );
   }
-}
 
 export default App;
