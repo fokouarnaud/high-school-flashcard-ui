@@ -52,7 +52,7 @@ class QuizView extends Component {
       previous_questions: previousQuestions,
         quiz_category: this.state.quizCategory
     })
-    .then(function (res) {
+    .then((res)=> {
        const result = res.data;
        this.setState({
         showAnswer: false,
@@ -63,7 +63,7 @@ class QuizView extends Component {
       });
 
     })
-    .catch(function (error) {
+    .catch((error)=> {
       alert('Unable to load question. Please try your request again');
     });
 
@@ -196,7 +196,6 @@ class QuizView extends Component {
   }
 
   renderPlay() {
-    console.log(this.state.previousQuestions.length, questionsPerPlay);
     return this.state.previousQuestions.length === questionsPerPlay ||
       this.state.forceEnd ? (
       this.renderFinalScore()

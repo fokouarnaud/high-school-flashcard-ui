@@ -64,7 +64,7 @@ class QuestionView extends Component {
 
   getByCategory = (id) => {
     axios.get(`/categories/${id}/questions`, {})
-      .then(res => {
+      .then((res) => {
         const result = res.data
         this.setState({
           questions: result.questions,
@@ -84,9 +84,8 @@ class QuestionView extends Component {
       isSearch: "ok",
       searchTerm: searchTerm
     })
-      .then(function (res) {
+      .then( (res) => {
         const result = res.data;
-        console.log(res.data)
         this.setState({
           questions: result.questions,
           totalQuestions: result.total_questions,
@@ -94,7 +93,7 @@ class QuestionView extends Component {
         });
 
       })
-      .catch(function (error) {
+      .catch((error)=> {
         alert('Unable to load questions. Please try your request again');
       });
 
@@ -104,7 +103,7 @@ class QuestionView extends Component {
     if (action === 'DELETE') {
       if (window.confirm('are you sure you want to delete the question?')) {
         axios.delete(`/questions/${id}`, {})
-          .then(res => {
+          .then((res) => {
             this.getQuestions();
 
           })

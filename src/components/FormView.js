@@ -35,7 +35,7 @@ class FormView extends Component {
       difficulty: this.state.difficulty,
       category: this.state.category,
     })
-      .then(function (res) {
+      .then((res) => {
 
         this.setState({
           question: '',
@@ -45,7 +45,7 @@ class FormView extends Component {
         })
 
       })
-      .catch(function (error) {
+      .catch((error) => {
         alert('Unable to add question. Please try your request again');
       });
   };
