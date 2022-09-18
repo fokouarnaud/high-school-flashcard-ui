@@ -1,5 +1,5 @@
 # Revision App UI
-Tool to help high school students enhance learning and retention of various concepts. Conventional learning methods involve two ways of communication between learners and lecturers but with a less interactive approach. The web-based flashcard makes the student more engaged.
+Tool to help high school students enhance learning and retention of various concepts. While professors and students are involved in traditional learning techniques, their interaction is often minimal.. The web-based flashcard makes the student more engaged.
 
 ## Getting Setup
 
